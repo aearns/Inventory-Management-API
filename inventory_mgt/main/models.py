@@ -24,12 +24,12 @@ class Product(models.Model):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, blank=True)
+    # phone = models.CharField(max_length=20, blank=True)
 
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
-        db_table = 'User'
+        db_table = 'auth_user'
 
 # Automatically create auth token when user is created
 @receiver(post_save, sender=User)

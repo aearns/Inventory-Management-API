@@ -70,14 +70,6 @@ def product_detail(request, product_id):
         return JsonResponse({'message': 'Product deleted'})
 
 
-@csrf_exempt
-def register_user(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        user = User.objects.create_user(username=data['username'], 
-                                        password=data['password'])
-        return JsonResponse({'message': 'User registered successfully'}, status=201)
-    
 User = get_user_model()
 
 @csrf_exempt
@@ -96,7 +88,7 @@ def register_user(request):
             username=data['username'],
             password=data['password'],
             email=data['email'],
-            phone=data.get('phone', '')
+            #phone=data.get('phone', '')
         )
         
         return JsonResponse({
@@ -197,7 +189,7 @@ def add_location(request):
         )
         return JsonResponse({'message': 'Location added', 'id': location.id})
 
-
+@csrf_exempt
 def add_transaction(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -257,15 +249,20 @@ def add_transaction(request):
 
         return JsonResponse({'message': 'Transaction recorded and inventory updated'})
 
+
+@csrf_exempt
 def get_locations(request):
     locations = list(Location.objects.values())
     return JsonResponse(locations, safe=False)
 
+
+@csrf_exempt
 def get_suppliers(request):
     suppliers = list(Supplier.objects.values())
     return JsonResponse(suppliers, safe=False)
 
 
+@csrf_exempt
 def get_inventory(request):
     product_id = request.GET.get('product_id')
     location_id = request.GET.get('location_id')
@@ -279,6 +276,8 @@ def get_inventory(request):
     inventory = list(Inventory.objects.filter(**filters).values())
     return JsonResponse(inventory, safe=False)
 
+
+@csrf_exempt
 def get_transactions(request):
     product_id = request.GET.get('product_id')
     filters = {'product_id': product_id} if product_id else {}
