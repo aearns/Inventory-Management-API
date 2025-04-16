@@ -29,8 +29,8 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
-        db_table = 'main_user'
-        
+        db_table = 'User'
+
 # Automatically create auth token when user is created
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
